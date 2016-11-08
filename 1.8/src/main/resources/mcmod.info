@@ -1,0 +1,16 @@
+[
+{
+  "modid": "playertrophy",
+  "name": "PlayerTrophy",
+  "description": "PlayerTrophy, the mod for clans, bounties, and trophy hunting!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "minecraft.curseforge.com/projects/playertrophy",
+  "updateUrl": "",
+  "authorList": ["Lewis_McReu"],
+  "credits": "DarKnighT_0_9, for awesome textures!",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
