@@ -23,6 +23,10 @@ import net.minecraftforge.common.util.Constants.NBT;
  */
 public class WorldData extends WorldSavedData
 {
+	public Collection<Clan> getClans()
+	{
+		return clans;
+	}
 	public static WorldData loadFromWorld(World world)
 	{
 		WorldData data = (WorldData) world.getMapStorage().getOrLoadData(WorldData.class, "playertrophy");
