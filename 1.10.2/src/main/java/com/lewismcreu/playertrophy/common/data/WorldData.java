@@ -96,7 +96,7 @@ public class WorldData extends WorldSavedData
 	{
 		return findClan(new ChunkPos(pos));
 	}
-
+	
 	private static final String clanCounterKey = "clancounter", clanKey = "clans", bountyKey = "bounties";
 
 	@Override

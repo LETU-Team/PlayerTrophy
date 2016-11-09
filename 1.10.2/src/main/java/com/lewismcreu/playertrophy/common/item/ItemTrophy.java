@@ -3,6 +3,7 @@ package com.lewismcreu.playertrophy.common.item;
 import java.util.List;
 import java.util.UUID;
 
+import com.lewismcreu.playertrophy.proxy.CommonProxy;
 import com.lewismcreu.playertrophy.util.Lang;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
@@ -76,5 +77,10 @@ public class ItemTrophy extends BaseItem
 	{
 		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(keySlayer)) return null;
 		return stack.getTagCompound().getUniqueId(keySlayer);
+	}
+
+	public static ItemStack create(UUID slayer, UUID victim)
+	{
+		return setSlayer(setVictim(new ItemStack(CommonProxy.trophy), victim), slayer);
 	}
 }

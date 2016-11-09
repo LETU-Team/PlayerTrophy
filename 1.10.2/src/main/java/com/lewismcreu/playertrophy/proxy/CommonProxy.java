@@ -42,8 +42,7 @@ public class CommonProxy
 
 	public static IPlayerData getPlayerData(EntityPlayer player)
 	{
-		if (player.hasCapability(playerDataCapability, null)) player.getCapability(playerDataCapability, null);
-		return null;
+		return player.getCapability(playerDataCapability, null);
 	}
 
 	public static Clan getClan(EntityPlayer player)

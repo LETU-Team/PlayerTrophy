@@ -3,9 +3,11 @@ package com.lewismcreu.playertrophy.common.data;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.lewismcreu.playertrophy.PlayerTrophy;
 import com.lewismcreu.playertrophy.proxy.CommonProxy;
@@ -24,11 +26,14 @@ public class PlayerData implements IPlayerData
 	private UUID uuid;
 	private Collection<Clan> invites;
 
+	private Map<UUID, Long> lastKills;
+
 	public PlayerData()
 	{
 		clan = null;
 		uuid = null;
 		invites = Sets.newHashSet();
+		lastKills = Maps.newHashMap();
 	}
 
 	public PlayerData(UUID uuid)
@@ -65,6 +70,18 @@ public class PlayerData implements IPlayerData
 	public void addInvite(Clan clan)
 	{
 		invites.add(clan);
+	}
+
+	@Override
+	public void removeInvite(Clan clan)
+	{
+		invites.remove(clan);
+	}
+
+	@Override
+	public Map<UUID, Long> getLastKills()
+	{
+		return Collections.unmodifiableMap(lastKills);
 	}
 
 	public static class PlayerDataStorage implements IStorage<IPlayerData>
