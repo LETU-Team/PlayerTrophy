@@ -62,7 +62,7 @@ public class CommandClan extends LMCommandBase
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] params)
+	public void processCommand(ICommandSender sender, String[] params)
 	{
 		try
 		{
@@ -217,7 +217,7 @@ public class CommandClan extends LMCommandBase
 						c.getName())));
 				sender.addChatMessage(new ChatComponentText(String.format(
 						Language.getLocalizedString("playertrophy.command.inviteconfirmation"),
-						player.getName())));
+						player.getDisplayNameString())));
 			}
 			else throw new IllegalArgumentException("playertrophy.command.playernotfoundorinclan");
 		}
@@ -585,7 +585,7 @@ public class CommandClan extends LMCommandBase
 	}
 
 	@Override
-	public boolean canCommandSenderUse(ICommandSender p_71519_1_)
+	public boolean canCommandSenderUseCommand(ICommandSender p_71519_1_)
 	{
 		return true;
 	}

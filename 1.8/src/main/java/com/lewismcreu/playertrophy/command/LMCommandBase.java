@@ -28,7 +28,7 @@ public abstract class LMCommandBase extends CommandBase
 	}
 
 	@Override
-	public String getName()
+	public String getCommandName()
 	{
 		return name;
 	}

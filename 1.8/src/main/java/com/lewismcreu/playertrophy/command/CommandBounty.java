@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.lewismcreu.playertrophy.PlayerTrophy;
+import com.lewismcreu.playertrophy.proxy.CommonProxy;
+
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
-
-import com.lewismcreu.playertrophy.PlayerTrophy;
-import com.lewismcreu.playertrophy.proxy.CommonProxy;
 
 /**
  * @author Lewis_McReu
@@ -25,7 +25,7 @@ public class CommandBounty extends LMCommandBase
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] params)
+	public void processCommand(ICommandSender sender, String[] params)
 	{
 		if (params.length > 0)
 		{
@@ -37,13 +37,15 @@ public class CommandBounty extends LMCommandBase
 					return;
 			}
 		}
-		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException(
+				"playertrophy.command.invalidcommand");
 	}
 
 	private void handleList(ICommandSender sender, String[] params)
 	{
 		sender.addChatMessage(new ChatComponentText("Bounties:"));
-		HashMap<UUID, Integer> bounties = PlayerTrophy.instance.worldData.getBounties();
+		HashMap<UUID, Integer> bounties =
+				PlayerTrophy.instance.worldData.getBounties();
 		Iterator<Entry<UUID, Integer>> it = bounties.entrySet().iterator();
 		while (it.hasNext())
 		{
@@ -51,12 +53,14 @@ public class CommandBounty extends LMCommandBase
 			String displayName = "";
 			displayName = CommonProxy.getNameForUuid(x.getKey());
 			int count = x.getValue();
-			sender.addChatMessage(new ChatComponentText(displayName + " : " + count));
+			sender.addChatMessage(
+					new ChatComponentText(displayName + " : " + count));
 		}
 	}
 
 	@Override
-	public List<String> addTabCompletionOptions(ICommandSender sender, String[] params, BlockPos pos)
+	public List<String> addTabCompletionOptions(ICommandSender sender,
+			String[] params, BlockPos pos)
 	{
 		List<String> out = new LinkedList<String>();
 		if (params.length == 1)

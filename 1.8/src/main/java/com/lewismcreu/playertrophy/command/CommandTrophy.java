@@ -20,7 +20,7 @@ public class CommandTrophy extends LMCommandBase
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] parameters)
+	public void processCommand(ICommandSender sender, String[] parameters)
 	{
 		if (sender instanceof EntityPlayer && parameters.length == 2)
 		{

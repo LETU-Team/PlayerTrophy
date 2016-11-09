@@ -45,8 +45,8 @@ public class PlayerEventHandler
 
 			PlayerData data = (PlayerData) source.getExtendedProperties("playertrophy");
 
-			String nameVictim = victim.getName();
-			String nameSource = source.getName();
+			String nameVictim = victim.getDisplayNameString();
+			String nameSource = source.getDisplayNameString();
 
 			String uuidVictim = victim.getUniqueID().toString();
 			String uuidSource = source.getUniqueID().toString();
