@@ -10,6 +10,9 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+/**
+ * @author Lewis_McReu
+ */
 @EventBusSubscriber
 public class TrophyEventHandler
 {
@@ -19,15 +22,20 @@ public class TrophyEventHandler
 		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource()
 				.getSourceOfDamage() instanceof EntityPlayer)
 		{
-			EntityPlayer source = (EntityPlayer) event.getSource().getSourceOfDamage();
+			EntityPlayer source =
+					(EntityPlayer) event.getSource().getSourceOfDamage();
 			EntityPlayer target = (EntityPlayer) event.getEntityLiving();
 
-			IPlayerData sourceData = source.getCapability(CommonProxy.playerDataCapability, null);
+			IPlayerData sourceData = source
+					.getCapability(CommonProxy.playerDataCapability, null);
 
-			if (!sourceData.getLastKills().containsKey(target.getPersistentID()))
+			if (!sourceData.getLastKills()
+					.containsKey(target.getPersistentID()))
 			{
-				ItemStack out = ItemTrophy.create(source.getPersistentID(), target.getPersistentID());
-				if (!source.inventory.addItemStackToInventory(out)) target.entityDropItem(out, 0.1f);
+				ItemStack out = ItemTrophy.create(source.getPersistentID(),
+						target.getPersistentID());
+				if (!source.inventory.addItemStackToInventory(out))
+					target.entityDropItem(out, 0.1f);
 			}
 		}
 	}

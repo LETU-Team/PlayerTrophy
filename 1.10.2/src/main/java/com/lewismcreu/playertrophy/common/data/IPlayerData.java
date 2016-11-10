@@ -4,6 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @author Lewis_McReu
+ */
 public interface IPlayerData
 {
 	public Clan getClan();
@@ -14,7 +17,7 @@ public interface IPlayerData
 	{
 		if (!hasClan() && getInvites().contains(clan))
 		{
-			removeInvite(clan);
+			removeInvitation(clan);
 			setClan(clan);
 		}
 	}
@@ -28,20 +31,24 @@ public interface IPlayerData
 
 	public Collection<Clan> getInvites();
 
-	public void addInvite(Clan clan);
+	public void addInvitation(Clan clan);
 
-	public void removeInvite(Clan clan);
+	public void removeInvitation(Clan clan);
+	
+	public void acceptInvitation(Clan clan);
+
+	public void leave();
+
+	public Map<UUID, Long> getLastKills();
+
+	public long getLastBountySetTime();
+
+	public void setLastBountySetTime(long time);
 
 	public default void copy(IPlayerData data)
 	{
 		setClan(data.getClan());
 		for (Clan c : data.getInvites())
-			addInvite(c);
+			addInvitation(c);
 	}
-
-	public Map<UUID, Long> getLastKills();
-
-	// public long getLastBountySetTime();
-	//
-	// public void setLastBountySetTime(long time);
 }

@@ -11,6 +11,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * @author Lewis_McReu
+ */
 @SideOnly(Side.CLIENT)
 public class ClientProxy extends CommonProxy
 {
@@ -30,8 +33,9 @@ public class ClientProxy extends CommonProxy
 
 	private void registerItemModel(Item item)
 	{
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(
-				PlayerTrophy.MODID + ":" + item.getRegistryName()));;
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
+				.register(item, 0, new ModelResourceLocation(
+						PlayerTrophy.MODID + ":" + item.getRegistryName()));;
 	}
 
 	@Override

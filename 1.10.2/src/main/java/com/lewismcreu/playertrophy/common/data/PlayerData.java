@@ -20,13 +20,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
+/**
+ * @author Lewis_McReu
+ */
 public class PlayerData implements IPlayerData
 {
 	private Clan clan;
 	private UUID uuid;
 	private Collection<Clan> invites;
-
-	private Map<UUID, Long> lastKills;
 
 	public PlayerData()
 	{
@@ -45,6 +46,7 @@ public class PlayerData implements IPlayerData
 	@Override
 	public Clan getClan()
 	{
+		if (!clan.hasMember(getUUID())) setClan(null);
 		return clan;
 	}
 
@@ -67,16 +69,38 @@ public class PlayerData implements IPlayerData
 	}
 
 	@Override
-	public void addInvite(Clan clan)
+	public void addInvitation(Clan clan)
 	{
 		invites.add(clan);
 	}
 
 	@Override
-	public void removeInvite(Clan clan)
+	public void removeInvitation(Clan clan)
 	{
 		invites.remove(clan);
 	}
+
+	@Override
+	public void acceptInvitation(Clan clan)
+	{
+		if (invites.contains(clan))
+		{
+			removeInvitation(clan);
+			setClan(clan);
+		}
+	}
+
+	@Override
+	public void leave()
+	{
+		if (hasClan())
+		{
+			getClan().removeMember(uuid);
+			setClan(null);
+		}
+	}
+
+	private Map<UUID, Long> lastKills;
 
 	@Override
 	public Map<UUID, Long> getLastKills()
@@ -89,7 +113,8 @@ public class PlayerData implements IPlayerData
 		private static final String clanKey = "clan", inviteKey = "invites";
 
 		@Override
-		public NBTBase writeNBT(Capability<IPlayerData> capability, IPlayerData instance, EnumFacing side)
+		public NBTBase writeNBT(Capability<IPlayerData> capability,
+				IPlayerData instance, EnumFacing side)
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setInteger(clanKey, instance.getClan().getId());
@@ -105,25 +130,30 @@ public class PlayerData implements IPlayerData
 		}
 
 		@Override
-		public void readNBT(Capability<IPlayerData> capability, IPlayerData instance, EnumFacing side, NBTBase nbtbase)
+		public void readNBT(Capability<IPlayerData> capability,
+				IPlayerData instance, EnumFacing side, NBTBase nbtbase)
 		{
-			// TODO Auto-generated method stub
 			NBTTagCompound nbt = (NBTTagCompound) nbtbase;
-			instance.setClan(PlayerTrophy.getInstance().getData().findClan(nbt.getInteger(clanKey)));
+			instance.setClan(
+					PlayerTrophy.getData().findClan(nbt.getInteger(clanKey)));
 			Collection<Integer> col = Lists.newArrayList();
 			for (int id : nbt.getIntArray(inviteKey))
 				col.add(id);
-			for (Clan c : CollectionUtil.convert(col, id -> PlayerTrophy.getInstance().getData().findClan(id)))
-				instance.addInvite(c);
+			for (Clan c : CollectionUtil.convert(col,
+					id -> PlayerTrophy.getData().findClan(id)))
+				instance.addInvitation(c);
 		}
 	}
 
-	public static class PlayerDataProvider implements ICapabilitySerializable<NBTTagCompound>
+	public static class PlayerDataProvider
+			implements ICapabilitySerializable<NBTTagCompound>
 	{
-		IPlayerData instance = CommonProxy.playerDataCapability.getDefaultInstance();
+		IPlayerData instance =
+				CommonProxy.playerDataCapability.getDefaultInstance();
 
 		@Override
-		public boolean hasCapability(Capability<?> capability, EnumFacing facing)
+		public boolean hasCapability(Capability<?> capability,
+				EnumFacing facing)
 		{
 			return CommonProxy.playerDataCapability == capability;
 		}
@@ -131,21 +161,37 @@ public class PlayerData implements IPlayerData
 		@Override
 		public <T> T getCapability(Capability<T> capability, EnumFacing facing)
 		{
-			return hasCapability(capability, facing) ? CommonProxy.playerDataCapability.cast(instance) : null;
+			return hasCapability(capability, facing)
+					? CommonProxy.playerDataCapability.cast(instance) : null;
 		}
 
 		@Override
 		public NBTTagCompound serializeNBT()
 		{
-			return (NBTTagCompound) CommonProxy.playerDataCapability.getStorage().writeNBT(
-					CommonProxy.playerDataCapability, instance, null);
+			return (NBTTagCompound) CommonProxy.playerDataCapability
+					.getStorage()
+					.writeNBT(CommonProxy.playerDataCapability, instance, null);
 		}
 
 		@Override
 		public void deserializeNBT(NBTTagCompound nbt)
 		{
-			CommonProxy.playerDataCapability.getStorage().readNBT(CommonProxy.playerDataCapability, instance, null,
-					nbt);
+			CommonProxy.playerDataCapability.getStorage().readNBT(
+					CommonProxy.playerDataCapability, instance, null, nbt);
 		}
+	}
+
+	private long lastBountySetTime;
+
+	@Override
+	public long getLastBountySetTime()
+	{
+		return lastBountySetTime;
+	}
+
+	@Override
+	public void setLastBountySetTime(long lastBountySetTime)
+	{
+		this.lastBountySetTime = lastBountySetTime;
 	}
 }

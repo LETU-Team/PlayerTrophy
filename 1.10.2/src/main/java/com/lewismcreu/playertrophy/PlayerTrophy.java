@@ -53,9 +53,9 @@ public class PlayerTrophy
 
 	private WorldData data;
 
-	public WorldData getData()
+	public static WorldData getData()
 	{
-		return data;
+		return instance.data;
 	}
 
 	@EventHandler

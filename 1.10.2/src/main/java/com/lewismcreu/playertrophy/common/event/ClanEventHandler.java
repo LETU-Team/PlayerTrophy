@@ -13,6 +13,9 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+/**
+ * @author Lewis_McReu
+ */
 @EventBusSubscriber
 public class ClanEventHandler
 {
@@ -21,13 +24,16 @@ public class ClanEventHandler
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event)
 	{
-		if (!hasAccess(event.getPlayer(), event.getPos())) event.setCanceled(true);
+		if (!hasAccess(event.getPlayer(), event.getPos()))
+			event.setCanceled(true);
 	}
 
 	@SubscribeEvent
 	public void onInteract(PlayerInteractEvent event)
 	{
-		if (!hasAccess(event.getEntityPlayer(), event.getPos()) && event.isCancelable()) event.setCanceled(true);
+		if (!hasAccess(event.getEntityPlayer(), event.getPos())
+				&& event.isCancelable())
+			event.setCanceled(true);
 	}
 
 	public static boolean hasAccess(EntityPlayer player, BlockPos pos)
@@ -43,11 +49,14 @@ public class ClanEventHandler
 	@SubscribeEvent
 	public void onPlayerDamaged(LivingHurtEvent event)
 	{
-		if (!Config.getFriendlyFire() && event.getEntity() instanceof EntityPlayer && event.getSource()
-				.getSourceOfDamage() instanceof EntityPlayer)
+		if (!Config.getFriendlyFire()
+				&& event.getEntity() instanceof EntityPlayer
+				&& event.getSource()
+						.getSourceOfDamage() instanceof EntityPlayer)
 		{
 			Clan target = CommonProxy.getClan((EntityPlayer) event.getEntity());
-			Clan source = CommonProxy.getClan((EntityPlayer) event.getSource().getSourceOfDamage());
+			Clan source = CommonProxy.getClan(
+					(EntityPlayer) event.getSource().getSourceOfDamage());
 			if (target == source) event.setCanceled(true);
 		}
 	}

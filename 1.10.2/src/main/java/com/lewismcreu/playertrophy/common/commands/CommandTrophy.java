@@ -1,12 +1,14 @@
 package com.lewismcreu.playertrophy.common.commands;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import com.lewismcreu.playertrophy.proxy.CommonProxy;
+import com.lewismcreu.playertrophy.common.item.ItemTrophy;
+import com.lewismcreu.playertrophy.util.Lang;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -14,39 +16,43 @@ import net.minecraft.util.math.BlockPos;
 /**
  * @author Lewis_McReu
  */
-public class CommandTrophy extends LMCommandBase
+public class CommandTrophy extends PTCommandBase
 {
 	public CommandTrophy()
 	{
-		super("trophy", false);
+		super("trophy");
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	public void execute(MinecraftServer server, ICommandSender sender,
+			String[] args) throws CommandException
 	{
-		if (sender instanceof EntityPlayer && args.length == 2)
+		if (args.length == 2)
 		{
-			EntityPlayer p = (EntityPlayer) sender;
-			String victim = args[0];
-			String slayer = args[1];
-			p.inventory.addItemStackToInventory(CommonProxy.createTrophy(victim, slayer, "", ""));
+			EntityPlayer p = getCommandSenderAsPlayer(sender);
+			EntityPlayer victim = getPlayer(server, sender, args[0]);
+			EntityPlayer slayer = getPlayer(server, sender, args[1]);
+			if (victim == null) throw new PlayerNotFoundException(
+					Lang.translate(
+							"command.exception.playertrophy.trophy.playernotfound"),
+					args[0]);
+			if (slayer == null) throw new PlayerNotFoundException(
+					Lang.translate(
+							"command.exception.playertrophy.trophy.playernotfound"),
+					args[1]);
+
+			p.inventory.addItemStackToInventory(ItemTrophy.create(
+					slayer.getPersistentID(), victim.getPersistentID()));
 		}
 	}
 
 	@Override
-	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) 
+	public List<String> getTabCompletionOptions(MinecraftServer server,
+			ICommandSender sender, String[] args, BlockPos pos)
 	{
-		List<String> list = new LinkedList<String>();
+		List<String> out = new ArrayList<>();
 		if (args.length < 3)
-		{
-			addAllPlayers(list, "");
-		}
-		if (list.size() == 0) return null;
-		return list;
-	}
-
-	@Override
-	public String getCommandName() {
-		return null;
+			CommandUtil.addMatchingPlayerNames(server, out, "");
+		return out;
 	}
 }

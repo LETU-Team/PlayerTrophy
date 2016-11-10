@@ -1,0 +1,23 @@
+item.playertrophy.name=Player Trophy
+item.bounty.name=Bounty Poster
+item.scepter.name=Scepter
+
+item.playertrophy.description.target=Trophy of %s
+item.playertrophy.description.slain=Slain by %s
+
+command.trophy.usage=/trophy
+command.bounty.usage=/bounty
+command.clan.usage=/clan
+
+command.exception.trophy.playernotfound=Could not find player %f
+command.exception.clan.noclan=You are not in a clan!
+
+chat.bounty.empty=No bounties set!
+chat.bounties=%d bounties set; to see the rewards for the bounties, put down a bounty wall.
+chat.bounty=%f
+
+chat.clans=%d clans
+chat.clans.empty=No clans existing
+chat.clan=%f - %d members
+chat.clan.leave=You left %f.
+chat.notaplayer=You have to be logged in as a player to perform this command.

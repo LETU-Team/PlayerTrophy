@@ -39,7 +39,8 @@ public class CollectionUtil
 	 * @return a list only containing the values from container that are also
 	 *         contained in filter
 	 */
-	public static <T> List<T> filterContains(Collection<T> container, Collection<T> filter)
+	public static <T> List<T> filterContains(Collection<T> container,
+			Collection<T> filter)
 	{
 		return filter(container, (T t) -> {
 			return filter.contains(t);
@@ -47,8 +48,8 @@ public class CollectionUtil
 	}
 
 	@SafeVarargs
-	public static <E, T> List<E> filter(Collection<E> col, T filter, Function<E, T> converter,
-			Predicate<T>... predicates)
+	public static <E, T> List<E> filter(Collection<E> col, T filter,
+			Function<E, T> converter, Predicate<T>... predicates)
 	{
 		List<E> out = new ArrayList<>();
 
@@ -75,7 +76,8 @@ public class CollectionUtil
 		return p;
 	}
 
-	public static <E, T> E find(Collection<E> col, Function<E, T> converter, T sought)
+	public static <E, T> E find(Collection<E> col, Function<E, T> converter,
+			T sought)
 	{
 		List<E> l = filter(col, (E e) -> converter.apply(e).equals(sought));
 		return l.isEmpty() ? null : l.get(0);
@@ -89,7 +91,8 @@ public class CollectionUtil
 		}
 	}
 
-	public static <E, T> List<T> convert(Collection<E> col, Function<E, T> converter)
+	public static <E, T> List<T> convert(Collection<E> col,
+			Function<E, T> converter)
 	{
 		List<T> l = new ArrayList<>();
 

@@ -25,15 +25,18 @@ public class ItemScepter extends BaseItem
 	public ItemScepter()
 	{
 		super("itemScepter");
+		setMaxStackSize(1);
 	}
 
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer player)
+	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn,
+			EntityPlayer player)
 	{
 		if (!worldIn.isRemote)
 		{
 			Clan clan = CommonProxy.getClanForPlayer(player);
 			Chunk chunk = Chunk.getChunkFromPlayer(player);
-			Clan chunkClan = PlayerTrophy.instance.worldData.getChunkClan(chunk);
+			Clan chunkClan =
+					PlayerTrophy.instance.worldData.getChunkClan(chunk);
 			if (clan != null && chunkClan == null)
 			{
 				clan.claimChunk(player);
@@ -43,33 +46,39 @@ public class ItemScepter extends BaseItem
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float xSide, float ySide, float zSide)
+	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world,
+			BlockPos pos, EnumFacing side, float xSide, float ySide,
+			float zSide)
 	{
 		if (!world.isRemote)
 		{
 			Clan clan = CommonProxy.getClanForPlayer(player);
 			Chunk chunk = Chunk.getChunkFromPlayer(player);
-			Clan chunkClan = PlayerTrophy.instance.worldData.getChunkClan(chunk);
+			Clan chunkClan =
+					PlayerTrophy.instance.worldData.getChunkClan(chunk);
 			if (chunkClan == null)
 			{
 				clan.claimChunk(player);
 			}
 			else if (!chunkClan.equals(clan)) return false;
 
-			if (clan != null && clan.getMemberRank(player.getUniqueID()) != null && clan
-					.getMemberRank(player.getUniqueID()).hasRight(Right.CLAIM))
+			if (clan != null && clan.getMemberRank(player.getUniqueID()) != null
+					&& clan.getMemberRank(player.getUniqueID())
+							.hasRight(Right.CLAIM))
 			{
 				TileEntity original = world.getTileEntity(pos);
 				Block block = world.getBlockState(pos).getBlock();
 				if (original instanceof IProtectedTileEntity)
 				{
-					IProtectedTileEntity originalProtected = (IProtectedTileEntity) original;
-					if (player.isSneaking() && originalProtected.isModifiable(player))
+					IProtectedTileEntity originalProtected =
+							(IProtectedTileEntity) original;
+					if (player.isSneaking()
+							&& originalProtected.isModifiable(player))
 					{
 						world.removeTileEntity(pos);
 						originalProtected.remove();
-						player.addChatMessage(
-								new ChatComponentText("Unclaimed " + block.getLocalizedName()));
+						player.addChatMessage(new ChatComponentText(
+								"Unclaimed " + block.getLocalizedName()));
 					}
 				}
 				else if (original != null)
@@ -78,12 +87,13 @@ public class ItemScepter extends BaseItem
 							.createProtectedTileEntity(clan, original);
 					world.removeTileEntity(pos);
 					world.setTileEntity(pos, (TileEntity) entity);
-					player.addChatMessage(
-							new ChatComponentText("Claimed " + block.getLocalizedName()));
+					player.addChatMessage(new ChatComponentText(
+							"Claimed " + block.getLocalizedName()));
 				}
 				return true;
 			}
-			else player.addChatMessage(new ChatComponentText("You can't claim anything!"));
+			else player.addChatMessage(
+					new ChatComponentText("You can't claim anything!"));
 		}
 		return false;
 	}

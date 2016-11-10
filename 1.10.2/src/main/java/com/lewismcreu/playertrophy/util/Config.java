@@ -16,7 +16,8 @@ public class Config
 	private static final boolean clanFFDefault = false;
 
 	private static final String bountyTime = "bountytime";
-	private static final String bountyTimeC = "set the minimum time (in hours) between placing bounties";
+	private static final String bountyTimeC =
+			"set the minimum time (in hours) between placing bounties";
 	private static final int bountyTimeDefault = 2;
 
 	private static final String trophyTime = "trophytime";
@@ -33,8 +34,10 @@ public class Config
 		config.load();
 		config.setCategoryRequiresMcRestart(cat, true);
 		friendlyfire = config.getBoolean(clanFF, cat, clanFFDefault, clanFFC);
-		bountyTimeRec = config.getInt(bountyTime, cat, bountyTimeDefault, minGen, maxGen, bountyTimeC);
-		trophyTimeRec = config.getInt(trophyTime, cat, trophyTimeDefault, minGen, maxGen, trophyTimeC);
+		bountyTimeRec = config.getInt(bountyTime, cat, bountyTimeDefault,
+				minGen, maxGen, bountyTimeC);
+		trophyTimeRec = config.getInt(trophyTime, cat, trophyTimeDefault,
+				minGen, maxGen, trophyTimeC);
 	}
 
 	public static boolean getFriendlyFire()

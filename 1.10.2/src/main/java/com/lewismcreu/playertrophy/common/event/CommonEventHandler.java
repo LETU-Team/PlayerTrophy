@@ -11,19 +11,25 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+/**
+ * @author Lewis_McReu
+ */
 @EventBusSubscriber
 public class CommonEventHandler
 {
 	@SubscribeEvent
-	public void onAttachCapabilities(AttachCapabilitiesEvent<EntityPlayer> event)
+	public void onAttachCapabilities(
+			AttachCapabilitiesEvent<EntityPlayer> event)
 	{
-		event.addCapability(new ResourceLocation(PlayerTrophy.MODID, "playerdata"),
+		event.addCapability(
+				new ResourceLocation(PlayerTrophy.MODID, "playerdata"),
 				new PlayerData.PlayerDataProvider());
 	}
 
 	@SubscribeEvent
 	public void clonePlayer(PlayerEvent.Clone event)
 	{
-		CommonProxy.getPlayerData(event.getEntityPlayer()).copy(CommonProxy.getPlayerData(event.getOriginal()));
+		CommonProxy.getPlayerData(event.getEntityPlayer())
+				.copy(CommonProxy.getPlayerData(event.getOriginal()));
 	}
 }

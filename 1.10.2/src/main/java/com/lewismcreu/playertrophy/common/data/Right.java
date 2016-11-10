@@ -13,7 +13,8 @@ public enum Right
 
 	private Right()
 	{
-		this.descriptionKey = "playertrophy.clan.right." + this.name().toLowerCase() + ".description";
+		this.descriptionKey = "playertrophy.clan.right."
+				+ this.name().toLowerCase() + ".description";
 	}
 
 	public String getDescription()

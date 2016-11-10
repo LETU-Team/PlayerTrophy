@@ -17,16 +17,19 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
+/**
+ * @author Lewis_McReu
+ */
 public class ItemScepter extends BaseItem
 {
 	public ItemScepter()
 	{
-		super("itemScepter");
+		super("scepter");
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player,
-			EnumHand hand)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack,
+			World world, EntityPlayer player, EnumHand hand)
 	{
 		// TODO Auto-generated method stub
 
@@ -35,12 +38,14 @@ public class ItemScepter extends BaseItem
 			if (player.isSneaking())
 			{
 				// TODO open tribe gui
-				return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+				return ActionResult.newResult(EnumActionResult.SUCCESS,
+						itemStack);
 			}
 			else
 			{
 				Clan playerClan = CommonProxy.getClan(player);
-				if (playerClan != null && playerClan.hasRight(player.getPersistentID(), Right.CLAIM))
+				if (playerClan != null && playerClan
+						.hasRight(player.getPersistentID(), Right.CLAIM))
 				{
 					BlockPos pos = player.getPosition();
 					Chunk chunk = world.getChunkFromBlockCoords(pos);
@@ -50,13 +55,17 @@ public class ItemScepter extends BaseItem
 					if (claimer == null)
 					{
 						data.claimChunk(playerClan, cPos);
-						return ActionResult.newResult(EnumActionResult.SUCCESS, itemStack);
+						return ActionResult.newResult(EnumActionResult.SUCCESS,
+								itemStack);
 					}
-					else if (claimer == playerClan) { 
+					else if (claimer == playerClan)
+					{
 						data.unclaimChunk(claimer, cPos);
 						return ActionResult.newResult(EnumActionResult.SUCCESS,
-							itemStack); }
-					return ActionResult.newResult(EnumActionResult.FAIL, itemStack);
+								itemStack);
+					}
+					return ActionResult.newResult(EnumActionResult.FAIL,
+							itemStack);
 				}
 			}
 		}
@@ -65,8 +74,9 @@ public class ItemScepter extends BaseItem
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos,
-			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn,
+			World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing,
+			float hitX, float hitY, float hitZ)
 	{
 		return onItemRightClick(stack, worldIn, playerIn, hand).getType();
 	}

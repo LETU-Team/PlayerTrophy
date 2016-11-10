@@ -15,6 +15,9 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+/**
+ * @author Lewis_McReu
+ */
 public class CommonProxy
 {
 	@CapabilityInject(IPlayerData.class)
@@ -25,7 +28,8 @@ public class CommonProxy
 
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		CapabilityManager.INSTANCE.register(IPlayerData.class, new PlayerData.PlayerDataStorage(), PlayerData.class);
+		CapabilityManager.INSTANCE.register(IPlayerData.class,
+				new PlayerData.PlayerDataStorage(), PlayerData.class);
 		GameRegistry.register(scepter);
 		GameRegistry.register(trophy);
 	}

@@ -8,8 +8,10 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import com.lewismcreu.playertrophy.common.data.Bounty.BountyReward;
 import com.lewismcreu.playertrophy.util.CollectionUtil;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
@@ -23,13 +25,10 @@ import net.minecraftforge.common.util.Constants.NBT;
  */
 public class WorldData extends WorldSavedData
 {
-	public Collection<Clan> getClans()
-	{
-		return clans;
-	}
 	public static WorldData loadFromWorld(World world)
 	{
-		WorldData data = (WorldData) world.getMapStorage().getOrLoadData(WorldData.class, "playertrophy");
+		WorldData data = (WorldData) world.getMapStorage()
+				.getOrLoadData(WorldData.class, "playertrophy");
 		if (data == null)
 		{
 			data = new WorldData();
@@ -37,11 +36,6 @@ public class WorldData extends WorldSavedData
 		}
 		return data;
 	}
-
-	private int clanIdCounter;
-	private Collection<Clan> clans;
-	private Set<ChunkPos> claimedChunks;
-	// private Set<Bounty> bounties; TODO
 
 	public WorldData()
 	{
@@ -58,6 +52,18 @@ public class WorldData extends WorldSavedData
 		});
 	}
 
+	private int clanIdCounter;
+
+	public int nextClanId()
+	{
+		int id = clanIdCounter++;
+		clanIdCounter++;
+		return id;
+	}
+
+	private Collection<Clan> clans;
+	private Set<ChunkPos> claimedChunks;
+
 	public Collection<ChunkPos> getClaimedChunks()
 	{
 		return Collections.unmodifiableSet(claimedChunks);
@@ -67,19 +73,21 @@ public class WorldData extends WorldSavedData
 	{
 		claimedChunks.add(pos);
 		clan.claimChunk(pos);
+		markDirty();
 	}
 
 	public void unclaimChunk(Clan clan, ChunkPos pos)
 	{
 		claimedChunks.remove(pos);
 		clan.unclaimChunk(pos);
+		markDirty();
 	}
 
 	public Clan createClan(UUID creator)
 	{
 		Clan c = Clan.createClan(creator);
-		c.setId(clanIdCounter++);
 		clans.add(c);
+		markDirty();
 		return c;
 	}
 
@@ -100,8 +108,35 @@ public class WorldData extends WorldSavedData
 	{
 		return findClan(new ChunkPos(pos));
 	}
-	
-	private static final String clanCounterKey = "clancounter", clanKey = "clans", bountyKey = "bounties";
+
+	public Collection<Clan> getClans()
+	{
+		return Collections.unmodifiableCollection(clans);
+	}
+
+	private Collection<Bounty> bounties;
+
+	public Collection<Bounty> getBounties()
+	{
+		return Collections.unmodifiableCollection(bounties);
+	}
+
+	public void addBounty(UUID uuid, Collection<ItemStack> reward)
+	{
+		Bounty b = findBounty(uuid);
+		if (b == null) b = new Bounty(uuid);
+		BountyReward br = b.new BountyReward(reward);
+		b.addReward(br);
+		markDirty();
+	}
+
+	public Bounty findBounty(UUID uuid)
+	{
+		return CollectionUtil.find(bounties, b -> b.getUuid(), uuid);
+	}
+
+	private static final String clanCounterKey = "clancounter",
+			clanKey = "clans", bountyKey = "bounties";
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
@@ -110,6 +145,11 @@ public class WorldData extends WorldSavedData
 		NBTTagList clanList = nbt.getTagList(clanKey, NBT.TAG_COMPOUND);
 		for (int i = 0; i < clanList.tagCount(); i++)
 			clans.add(new Clan().readFromNBT(clanList.getCompoundTagAt(i)));
+
+		NBTTagList bountyList = nbt.getTagList(bountyKey, NBT.TAG_COMPOUND);
+		for (int i = 0; i < bountyList.tagCount(); i++)
+			bounties.add(
+					new Bounty().readFromNBT(bountyList.getCompoundTagAt(i)));
 	}
 
 	@Override
@@ -120,6 +160,11 @@ public class WorldData extends WorldSavedData
 		for (Clan c : clans)
 			clanList.appendTag(c.writeToNBT());
 		compound.setTag(clanKey, clanList);
+
+		NBTTagList bountyList = new NBTTagList();
+		for (Bounty b : bounties)
+			bountyList.appendTag(b.writeToNBT());
+		compound.setTag(bountyKey, bountyList);
 
 		return compound;
 	}

@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * @author Lewis_McReu
  * @param <E>
+ *            the implementing class
  */
 public interface NBTable<E extends NBTable<E>>
 {
