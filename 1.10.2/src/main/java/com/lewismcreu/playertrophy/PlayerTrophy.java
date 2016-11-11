@@ -1,5 +1,6 @@
 package com.lewismcreu.playertrophy;
 
+import com.lewismcreu.playertrophy.common.commands.CommandClanNew;
 import com.lewismcreu.playertrophy.common.data.WorldData;
 import com.lewismcreu.playertrophy.proxy.CommonProxy;
 import com.lewismcreu.playertrophy.util.Config;
@@ -62,5 +63,6 @@ public class PlayerTrophy
 	public void onServerStarting(FMLServerStartingEvent event)
 	{
 		data = WorldData.loadFromWorld(event.getServer().getEntityWorld());
+		event.registerServerCommand(new CommandClanNew());
 	}
 }
