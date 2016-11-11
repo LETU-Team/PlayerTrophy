@@ -11,15 +11,13 @@ import net.minecraft.util.text.TextFormatting;
 
 public class CommandUtil
 {
-	public static final void addMatchingPlayerNames(MinecraftServer server,
-			List<String> out, String start)
+	public static final void addMatchingPlayerNames(MinecraftServer server, List<String> out, String start)
 	{
 		for (String name : server.getAllUsernames())
 			if (CommandBase.doesStringStartWith(start, name)) out.add(name);
 	}
 
-	public static final void sendErrorMessage(ICommandSender sender,
-			String message)
+	public static final void sendErrorMessage(ICommandSender sender, String message)
 	{
 		TextComponentString c = new TextComponentString(message);
 		Style style = new Style();
