@@ -6,6 +6,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.lewismcreu.playertrophy.clan.Clan;
+import com.lewismcreu.playertrophy.handler.BlockEventHandler;
+import com.lewismcreu.playertrophy.handler.PlayerEventHandler;
+import com.lewismcreu.playertrophy.item.ItemBounty;
+import com.lewismcreu.playertrophy.item.ItemPlayerTrophy;
+import com.lewismcreu.playertrophy.item.ItemScepter;
+import com.lewismcreu.playertrophy.player.PlayerData;
+import com.lewismcreu.playertrophy.tileentity.TileEntityProtectedChest;
+import com.lewismcreu.playertrophy.util.Reference;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -19,16 +29,6 @@ import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-
-import com.lewismcreu.playertrophy.clan.Clan;
-import com.lewismcreu.playertrophy.handler.BlockEventHandler;
-import com.lewismcreu.playertrophy.handler.PlayerEventHandler;
-import com.lewismcreu.playertrophy.item.ItemBounty;
-import com.lewismcreu.playertrophy.item.ItemPlayerTrophy;
-import com.lewismcreu.playertrophy.item.ItemScepter;
-import com.lewismcreu.playertrophy.player.PlayerData;
-import com.lewismcreu.playertrophy.tileentity.TileEntityProtectedChest;
-import com.lewismcreu.playertrophy.util.Reference;
 
 /**
  * @author Lewis_McReu
@@ -45,14 +45,12 @@ public abstract class CommonProxy implements IProxy
 		MinecraftForge.EVENT_BUS.register(new BlockEventHandler());
 		registerItems();
 		registerRecipes();
-		GameRegistry.registerTileEntity(TileEntityProtectedChest.class,
-				Reference.MOD_NAME + "ProtectedChest");
+		GameRegistry.registerTileEntity(TileEntityProtectedChest.class, Reference.MOD_NAME + "ProtectedChest");
 	}
 
 	@Override
 	public void init()
-	{
-	}
+	{}
 
 	public static ItemStack createTrophy(String victim, String slayer, String uuidVictim, String uuidSlayer)
 	{
@@ -77,10 +75,10 @@ public abstract class CommonProxy implements IProxy
 
 	private void registerRecipes()
 	{
-		GameRegistry.addRecipe(new ShapedOreRecipe(bounty, false, "ABA", "BCB", "ABA", 'A',
-				"gemDiamond", 'B', Items.ender_eye, 'C', Items.paper));
-		GameRegistry.addRecipe(new ShapedOreRecipe(scepter, false, "XAB", "XAA", "AXX", 'A',
-				"ingotGold", 'B', "gemEmerald"));
+		GameRegistry.addRecipe(new ShapedOreRecipe(bounty, false, "ABA", "BCB", "ABA", 'A', "gemDiamond", 'B',
+				Items.ender_eye, 'C', Items.paper));
+		GameRegistry.addRecipe(new ShapedOreRecipe(scepter, false, "XAB", "XAA", "AXX", 'A', "ingotGold", 'B',
+				"gemEmerald"));
 	}
 
 	@Override

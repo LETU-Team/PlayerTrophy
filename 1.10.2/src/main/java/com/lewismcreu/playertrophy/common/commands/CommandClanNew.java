@@ -31,19 +31,16 @@ public class CommandClanNew extends PTCommandTreeBase
 		}
 
 		@Override
-		public void execute(MinecraftServer server, ICommandSender sender,
-				String[] args) throws CommandException
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 		{
 			Collection<Clan> clans = PlayerTrophy.getData().getClans();
-			if (clans.isEmpty()) sender.addChatMessage(
-					new TextComponentTranslation("chat.clans.empty"));
+			if (clans.isEmpty()) sender.addChatMessage(new TextComponentTranslation("chat.clans.empty"));
 			else
 			{
-				sender.addChatMessage(new TextComponentTranslation("chat.clans",
-						clans.size()));
+				sender.addChatMessage(new TextComponentTranslation("chat.clans", clans.size()));
 				for (Clan c : clans)
-					sender.addChatMessage(new TextComponentTranslation(
-							"chat.clan", c.getName(), c.getMembers().size()));
+					sender.addChatMessage(new TextComponentTranslation("chat.clan", c.getName(), c.getMembers()
+							.size()));
 			}
 		}
 	}
@@ -56,17 +53,14 @@ public class CommandClanNew extends PTCommandTreeBase
 		}
 
 		@Override
-		public void execute(MinecraftServer server, ICommandSender sender,
-				String[] args) throws CommandException
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 		{
 			IPlayerData data = getPlayerData(sender);
-			if (!data.hasClan()) throw new CommandException(
-					Lang.translate("command.exception.clan.noclan"));
+			if (!data.hasClan()) throw new CommandException(Lang.translate("command.exception.clan.noclan"));
 
 			Clan c = data.getClan();
 			data.leave();
-			sender.addChatMessage(new TextComponentTranslation(
-					"chat.clan.leave", c.getName()));
+			sender.addChatMessage(new TextComponentTranslation("chat.clan.leave", c.getName()));
 		}
 	}
 
@@ -78,8 +72,7 @@ public class CommandClanNew extends PTCommandTreeBase
 		}
 
 		@Override
-		public void execute(MinecraftServer server, ICommandSender sender,
-				String[] args) throws CommandException
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 		{
 			// TODO Auto-generated method stub
 
@@ -94,8 +87,7 @@ public class CommandClanNew extends PTCommandTreeBase
 		}
 
 		@Override
-		public void execute(MinecraftServer server, ICommandSender sender,
-				String[] args) throws CommandException
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 		{
 			// TODO Auto-generated method stub
 
@@ -118,8 +110,7 @@ public class CommandClanNew extends PTCommandTreeBase
 		}
 
 		@Override
-		public void execute(MinecraftServer server, ICommandSender sender,
-				String[] args) throws CommandException
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 		{
 			// TODO Auto-generated method stub
 
@@ -134,8 +125,7 @@ public class CommandClanNew extends PTCommandTreeBase
 		}
 
 		@Override
-		public void execute(MinecraftServer server, ICommandSender sender,
-				String[] args) throws CommandException
+		public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 		{
 			// TODO Auto-generated method stub
 
@@ -155,13 +145,102 @@ public class CommandClanNew extends PTCommandTreeBase
 			{
 				super("right");
 			}
+
+			private class CommandAdd extends PTCommandBase
+			{
+				public CommandAdd()
+				{
+					super("add");
+				}
+
+				@Override
+				public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+						throws CommandException
+				{
+					// TODO Auto-generated method stub
+
+				}
+			}
+
+			private class CommandRemove extends PTCommandBase
+			{
+				public CommandRemove()
+				{
+					super("remove");
+				}
+
+				@Override
+				public void execute(MinecraftServer server, ICommandSender sender, String[] args)
+						throws CommandException
+				{
+					// TODO Auto-generated method stub
+
+				}
+			}
 		}
-		
-		
+
+		private class CommandGrant extends PTCommandBase
+		{
+			public CommandGrant()
+			{
+				super("grant");
+			}
+
+			@Override
+			public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+			{
+				// TODO Auto-generated method stub
+
+			}
+		}
+
+		private class CommandCreate extends PTCommandBase
+		{
+			public CommandCreate()
+			{
+				super("create");
+			}
+
+			@Override
+			public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+			{
+				// TODO Auto-generated method stub
+
+			}
+		}
+
+		private class CommandRemove extends PTCommandBase
+		{
+			public CommandRemove()
+			{
+				super("remove");
+			}
+
+			@Override
+			public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+			{
+				// TODO Auto-generated method stub
+
+			}
+		}
+
+		private class CommandDefault extends PTCommandBase
+		{
+			public CommandDefault()
+			{
+				super("default");
+			}
+
+			@Override
+			public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+			{
+				// TODO Auto-generated method stub
+
+			}
+		}
 	}
 
-	public static EntityPlayer checkPlayer(ICommandSender sender)
-			throws CommandException
+	public static EntityPlayer checkPlayer(ICommandSender sender) throws CommandException
 	{
 		if (sender instanceof EntityPlayer) return (EntityPlayer) sender;
 		throw new CommandException(Lang.translate("chat.notaplayer"));
@@ -173,8 +252,7 @@ public class CommandClanNew extends PTCommandTreeBase
 		return CommonProxy.getClan((EntityPlayer) sender);
 	}
 
-	public static IPlayerData getPlayerData(ICommandSender sender)
-			throws CommandException
+	public static IPlayerData getPlayerData(ICommandSender sender) throws CommandException
 	{
 		return CommonProxy.getPlayerData(checkPlayer(sender));
 	}

@@ -11,9 +11,9 @@ import java.util.UUID;
 
 import com.lewismcreu.playertrophy.PlayerTrophy;
 import com.lewismcreu.playertrophy.common.data.Clan;
+import com.lewismcreu.playertrophy.common.data.Clan.Rank;
 import com.lewismcreu.playertrophy.common.data.IPlayerData;
 import com.lewismcreu.playertrophy.common.data.PlayerData;
-import com.lewismcreu.playertrophy.common.data.Rank;
 import com.lewismcreu.playertrophy.common.data.Right;
 import com.lewismcreu.playertrophy.proxy.CommonProxy;
 import com.lewismcreu.playertrophy.util.Lang;
@@ -66,8 +66,7 @@ public class CommandClan extends PTCommandBase
 	}
 
 	@Override
-	public void execute(MinecraftServer server, ICommandSender sender,
-			String[] args) throws CommandException
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
 	{
 		try
 		{
@@ -107,8 +106,7 @@ public class CommandClan extends PTCommandBase
 						break;
 
 					default:
-						throw new IllegalArgumentException(
-								"playertrophy.command.invalidcommand");
+						throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 				}
 			}
 			else
@@ -116,20 +114,16 @@ public class CommandClan extends PTCommandBase
 				Clan c = getClan(sender);
 				if (c != null)
 				{
-					CommandUtil.sendMessage(sender,
-							c.getName() + " - " + c.findMember(
-									((EntityPlayer) sender).getUniqueID())
-									.getRank());
+					CommandUtil.sendMessage(sender, c.getName() + " - " + c.findMember(((EntityPlayer) sender)
+							.getUniqueID()).getRank());
 					return;
 				}
-				else throw new IllegalArgumentException(
-						"playertrophy.command.noclan");
+				else throw new IllegalArgumentException("playertrophy.command.noclan");
 			}
 		}
 		catch (IllegalArgumentException | PlayerNotFoundException e)
 		{
-			CommandUtil.sendErrorMessage(sender,
-					Lang.translate(e.getMessage()));
+			CommandUtil.sendErrorMessage(sender, Lang.translate(e.getMessage()));
 		}
 	}
 
@@ -139,30 +133,25 @@ public class CommandClan extends PTCommandBase
 		if (c != null)
 		{
 			getPlayerData(sender).leaveClan();
-			sender.addChatMessage(new TextComponentString(String.format(
-					Lang.translate("playertrophy.command.clanleave"),
-					c.getName())));
+			sender.addChatMessage(new TextComponentString(String.format(Lang.translate(
+					"playertrophy.command.clanleave"), c.getName())));
 		}
 		else throw new IllegalArgumentException("playertrophy.command.noclan");
 	}
 
 	private void handleList(ICommandSender sender)
 	{
-		Collection<Clan> clans =
-				PlayerTrophy.getInstance().getData().getClans();
+		Collection<Clan> clans = PlayerTrophy.getInstance().getData().getClans();
 		if (clans.size() > 0)
 		{
-			sender.addChatMessage(new TextComponentString(
-					Lang.translate("playertrophy.clan.clans") + ":"));
+			sender.addChatMessage(new TextComponentString(Lang.translate("playertrophy.clan.clans") + ":"));
 			for (Clan c : clans.values())
 			{
-				sender.addChatMessage(new TextComponentString(
-						c.getName() + " - " + c.getMembers().size() + " "
-								+ Lang.translate("playertrophy.clan.members")));
+				sender.addChatMessage(new TextComponentString(c.getName() + " - " + c.getMembers().size() + " " + Lang
+						.translate("playertrophy.clan.members")));
 			}
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.noclansfound");
+		else throw new IllegalArgumentException("playertrophy.command.noclansfound");
 	}
 
 	private void handleCreate(ICommandSender sender, String[] params)
@@ -179,33 +168,23 @@ public class CommandClan extends PTCommandBase
 				{
 					clanName = clanName + " " + params[i];
 				}
-				if (!PlayerTrophy.getInstance().getData().getClans()
-						.containsKey(clanName))
+				if (!PlayerTrophy.getInstance().getData().getClans().containsKey(clanName))
 				{
-					Clan clan = PlayerTrophy.getInstance().getData()
-							.createClan(clanName, uuid);
+					Clan clan = PlayerTrophy.getInstance().getData().createClan(clanName, uuid);
 					if (clan != null)
 					{
-						PlayerData data = (PlayerData) ((EntityPlayer) sender)
-								.getExtendedProperties("playertrophy");
+						PlayerData data = (PlayerData) ((EntityPlayer) sender).getExtendedProperties("playertrophy");
 						data.setClan(clan);
-						sender.addChatMessage(
-								new ChatComponentText(String.format(
-										Lang.translate(
-												"playertrophy.command.clancreate"),
-										clan.getName())));
+						sender.addChatMessage(new ChatComponentText(String.format(Lang.translate(
+								"playertrophy.command.clancreate"), clan.getName())));
 					}
-					else throw new IllegalArgumentException(
-							"playertrophy.command.clanexists");
+					else throw new IllegalArgumentException("playertrophy.command.clanexists");
 				}
-				else throw new IllegalArgumentException(
-						"playertrophy.command.clanexists");
+				else throw new IllegalArgumentException("playertrophy.command.clanexists");
 			}
-			else throw new IllegalArgumentException(
-					"playertrophy.command.invalidcommand");
+			else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.alreadyinclan");
+		else throw new IllegalArgumentException("playertrophy.command.alreadyinclan");
 	}
 
 	private void handleDisband(ICommandSender sender, String[] params)
@@ -213,13 +192,11 @@ public class CommandClan extends PTCommandBase
 		Clan c = getClan(sender);
 		if (c != null && c.delete(((EntityPlayer) sender).getUniqueID()))
 		{
-			sender.addChatMessage(new TextComponentString(String.format(
-					Lang.translate("playertrophy.command.clandisband"),
-					c.getName())));
+			sender.addChatMessage(new TextComponentString(String.format(Lang.translate(
+					"playertrophy.command.clandisband"), c.getName())));
 			return;
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidpermissions");
+		else throw new IllegalArgumentException("playertrophy.command.invalidpermissions");
 	}
 
 	private void handleInvite(ICommandSender sender, String[] params)
@@ -230,26 +207,18 @@ public class CommandClan extends PTCommandBase
 			String targetName = params[1];
 			UUID targetUuid = CommonProxy.getUuidForName(targetName);
 			EntityPlayer player = CommonProxy.getPlayerForUuid(targetUuid);
-			if (targetUuid != null && !c.hasMember(targetUuid)
-					&& player != null)
+			if (targetUuid != null && !c.hasMember(targetUuid) && player != null)
 			{
-				PlayerData data = (PlayerData) player
-						.getExtendedProperties("playertrophy");
+				PlayerData data = (PlayerData) player.getExtendedProperties("playertrophy");
 				data.invite(c);
-				player.addChatMessage(new TextComponentString(String.format(
-						Lang.translate(
-								"playertrophy.command.invitenotification"),
-						c.getName())));
-				sender.addChatMessage(new TextComponentString(String.format(
-						Lang.translate(
-								"playertrophy.command.inviteconfirmation"),
-						player.getName())));
+				player.addChatMessage(new TextComponentString(String.format(Lang.translate(
+						"playertrophy.command.invitenotification"), c.getName())));
+				sender.addChatMessage(new TextComponentString(String.format(Lang.translate(
+						"playertrophy.command.inviteconfirmation"), player.getName())));
 			}
-			else throw new IllegalArgumentException(
-					"playertrophy.command.playernotfoundorinclan");
+			else throw new IllegalArgumentException("playertrophy.command.playernotfoundorinclan");
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	private void handleKick(ICommandSender sender, String[] params)
@@ -263,20 +232,15 @@ public class CommandClan extends PTCommandBase
 			{
 				if (c.removeMember(uuid, ((EntityPlayer) sender).getUniqueID()))
 				{
-					PlayerTrophy.proxy.broadcastChatMessage(String.format(
-							Lang.translate(
-									"playertrophy.command.bannednotification"),
-							targetName, c.getName()));
+					PlayerTrophy.proxy.broadcastChatMessage(String.format(Lang.translate(
+							"playertrophy.command.bannednotification"), targetName, c.getName()));
 					return;
 				}
-				else throw new IllegalArgumentException(
-						"playertrophy.command.invalidpermissions");
+				else throw new IllegalArgumentException("playertrophy.command.invalidpermissions");
 			}
-			else throw new IllegalArgumentException(
-					"playertrophy.command.notamember");
+			else throw new IllegalArgumentException("playertrophy.command.notamember");
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	private void handleMembers(ICommandSender sender)
@@ -288,10 +252,8 @@ public class CommandClan extends PTCommandBase
 			while (mem.hasNext())
 			{
 				Entry<UUID, Rank> m = mem.next();
-				sender.addChatMessage(new TextComponentString(
-						CommonProxy.getNameForUuid(m.getKey()) + " - "
-								+ m.getValue().toString() + " - "
-								+ m.getKey().toString()));
+				sender.addChatMessage(new TextComponentString(CommonProxy.getNameForUuid(m.getKey()) + " - " + m
+						.getValue().toString() + " - " + m.getKey().toString()));
 			}
 			return;
 		}
@@ -309,27 +271,22 @@ public class CommandClan extends PTCommandBase
 			}
 			Clan x = PlayerTrophy.getInstance().getData().getClan(clanName);
 			EntityPlayer p = (EntityPlayer) sender;
-			PlayerData pdata =
-					(PlayerData) p.getExtendedProperties("playertrophy");
+			PlayerData pdata = (PlayerData) p.getExtendedProperties("playertrophy");
 			List<Clan> clans = pdata.getInvites();
 			if (!pdata.isInClan())
 			{
 				if (clans.contains(x))
 				{
 					pdata.accept(x);
-					sender.addChatMessage(new TextComponentString(String.format(
-							Lang.translate("playertrophy.command.clanjoined"),
-							clanName)));
+					sender.addChatMessage(new TextComponentString(String.format(Lang.translate(
+							"playertrophy.command.clanjoined"), clanName)));
 					return;
 				}
-				else throw new IllegalArgumentException(
-						"playertrophy.command.clannotfound");
+				else throw new IllegalArgumentException("playertrophy.command.clannotfound");
 			}
-			else throw new IllegalArgumentException(
-					"playertrophy.command.alreadyinclan");
+			else throw new IllegalArgumentException("playertrophy.command.alreadyinclan");
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	private void handleInvites(ICommandSender sender)
@@ -344,12 +301,10 @@ public class CommandClan extends PTCommandBase
 				sendMessage(sender, c.getName());
 			}
 		}
-		else sendMessage(sender,
-				Lang.translate("playertrophy.command.noinvites"));
+		else sendMessage(sender, Lang.translate("playertrophy.command.noinvites"));
 	}
 
-	private void handleRank(ICommandSender sender, String[] params)
-			throws PlayerNotFoundException
+	private void handleRank(ICommandSender sender, String[] params) throws PlayerNotFoundException
 	{
 		Clan c = getClan(sender);
 		if (params.length > 1)
@@ -372,8 +327,7 @@ public class CommandClan extends PTCommandBase
 					handleDefaultRank(sender, params);
 					break;
 				default:
-					throw new IllegalArgumentException(
-							"playertrophy.command.invalidcommand");
+					throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 			}
 		}
 		else
@@ -385,8 +339,7 @@ public class CommandClan extends PTCommandBase
 					sendMessage(sender, r.getName());
 				}
 			}
-			else throw new IllegalArgumentException(
-					"playertrophy.command.noclan");
+			else throw new IllegalArgumentException("playertrophy.command.noclan");
 		}
 	}
 
@@ -400,8 +353,7 @@ public class CommandClan extends PTCommandBase
 		else sendMessage(sender, getClan(sender).getDefaultRank().toString());
 	}
 
-	private void handleRemoveRank(ICommandSender sender, String[] params)
-			throws PlayerNotFoundException
+	private void handleRemoveRank(ICommandSender sender, String[] params) throws PlayerNotFoundException
 	{
 		if (params.length > 2)
 		{
@@ -409,8 +361,7 @@ public class CommandClan extends PTCommandBase
 			Rank r = c.getRank(params[2]);
 			c.removeRank(r, getCommandSenderAsPlayer(sender).getUniqueID());
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	private void handleRightRank(ICommandSender sender, String[] params)
@@ -427,8 +378,7 @@ public class CommandClan extends PTCommandBase
 					break;
 			}
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	private void handleRemoveRightRank(ICommandSender sender, String[] params)
@@ -444,8 +394,7 @@ public class CommandClan extends PTCommandBase
 				return;
 			}
 		}
-		throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	private void handleAddRightRank(ICommandSender sender, String[] params)
@@ -461,12 +410,10 @@ public class CommandClan extends PTCommandBase
 				return;
 			}
 		}
-		throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
-	private void handleGrantRank(ICommandSender sender, String[] params)
-			throws PlayerNotFoundException
+	private void handleGrantRank(ICommandSender sender, String[] params) throws PlayerNotFoundException
 	{
 		if (params.length > 3)
 		{
@@ -474,19 +421,14 @@ public class CommandClan extends PTCommandBase
 			PlayerData data = getPlayerData(sender);
 			Rank rank = c.getRank(params[2]);
 			UUID uuid = CommonProxy.getUuidForName(params[3]);
-			if (rank == null) throw new IllegalArgumentException(
-					"playertrophy.command.ranknotfound");
-			if (uuid == null) throw new IllegalArgumentException(
-					"playertrophy.command.playernotfound");
-			c.setPlayerRank(uuid, rank,
-					getCommandSenderAsPlayer(sender).getUniqueID());
+			if (rank == null) throw new IllegalArgumentException("playertrophy.command.ranknotfound");
+			if (uuid == null) throw new IllegalArgumentException("playertrophy.command.playernotfound");
+			c.setPlayerRank(uuid, rank, getCommandSenderAsPlayer(sender).getUniqueID());
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
-	private void handleCreateRank(ICommandSender sender, String[] params)
-			throws PlayerNotFoundException
+	private void handleCreateRank(ICommandSender sender, String[] params) throws PlayerNotFoundException
 	{
 		if (params.length > 2)
 		{
@@ -495,13 +437,11 @@ public class CommandClan extends PTCommandBase
 			Rank r = new Rank(rankName);
 			c.addRank(r, getCommandSenderAsPlayer(sender).getUniqueID());
 		}
-		else throw new IllegalArgumentException(
-				"playertrophy.command.invalidcommand");
+		else throw new IllegalArgumentException("playertrophy.command.invalidcommand");
 	}
 
 	@Override
-	public List<String> getTabCompletionOptions(ICommandSender sender,
-			String[] params, BlockPos pos)
+	public List<String> getTabCompletionOptions(ICommandSender sender, String[] params, BlockPos pos)
 	{
 		List<String> out = new LinkedList<String>();
 		switch (params.length)
@@ -530,8 +470,7 @@ public class CommandClan extends PTCommandBase
 						addAllPlayers(out, params[1]);
 					case "accept":
 						for (Clan c : getPlayerData(sender).getInvites())
-							if (doesStringStartWith(params[1], c.getName()))
-								out.add(c.getName());
+							if (doesStringStartWith(params[1], c.getName())) out.add(c.getName());
 					case "kick":
 						addClanMembers(sender, out, params[1]);
 					default:
@@ -593,8 +532,7 @@ public class CommandClan extends PTCommandBase
 		return out;
 	}
 
-	private void addClanRanks(ICommandSender sender, Collection<String> out,
-			String start)
+	private void addClanRanks(ICommandSender sender, Collection<String> out, String start)
 	{
 		Clan clan = getClan(sender);
 		Iterable<Rank> ranks = clan.getRanks();
@@ -605,8 +543,7 @@ public class CommandClan extends PTCommandBase
 		}
 	}
 
-	private void addClanMembers(ICommandSender sender, Collection<String> out,
-			String start)
+	private void addClanMembers(ICommandSender sender, Collection<String> out, String start)
 	{
 		Clan clan = getClan(sender);
 		if (clan != null)
@@ -622,15 +559,13 @@ public class CommandClan extends PTCommandBase
 
 	private Clan getClan(ICommandSender sender)
 	{
-		if (sender instanceof EntityPlayer)
-			return CommonProxy.getClan((EntityPlayer) sender);
+		if (sender instanceof EntityPlayer) return CommonProxy.getClan((EntityPlayer) sender);
 		else return null;
 	}
 
 	private PlayerData getPlayerData(ICommandSender sender)
 	{
-		if (sender instanceof EntityPlayer)
-			return CommonProxy.getPlayerData((IPlayerData) sender);
+		if (sender instanceof EntityPlayer) return CommonProxy.getPlayerData((IPlayerData) sender);
 		else return null;
 	}
 
