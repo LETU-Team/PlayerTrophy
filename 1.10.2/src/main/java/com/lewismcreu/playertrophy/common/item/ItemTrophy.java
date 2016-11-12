@@ -7,6 +7,7 @@ import com.lewismcreu.playertrophy.proxy.CommonProxy;
 import com.lewismcreu.playertrophy.util.Lang;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,6 +18,7 @@ public class ItemTrophy extends BaseItem
 	public ItemTrophy()
 	{
 		super("playertrophy");
+		setCreativeTab(CreativeTabs.MISC);
 		setMaxStackSize(1);
 	}
 
@@ -27,8 +29,7 @@ public class ItemTrophy extends BaseItem
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn,
-			List<String> tooltip, boolean advanced)
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
 	{
 		super.addInformation(stack, playerIn, tooltip, advanced);
 		UUID victim = getVictim(stack);
@@ -37,18 +38,14 @@ public class ItemTrophy extends BaseItem
 		if (victim != null)
 		{
 			String name = UsernameCache.getLastKnownUsername(victim);
-			if (name != null) tooltip.add(ChatFormatting.DARK_RED.toString()
-					+ String.format(Lang.format(
-							getUnlocalizedName(stack) + ".description.victim",
-							victim)));
+			if (name != null) tooltip.add(ChatFormatting.DARK_RED.toString() + String.format(Lang.format(
+					getUnlocalizedName(stack) + ".description.victim", victim)));
 		}
 		if (slayer != null)
 		{
 			String name = UsernameCache.getLastKnownUsername(slayer);
-			if (name != null) tooltip.add(ChatFormatting.DARK_RED.toString()
-					+ String.format(Lang.format(
-							getUnlocalizedName(stack) + ".description.slayer",
-							slayer)));
+			if (name != null) tooltip.add(ChatFormatting.DARK_RED.toString() + String.format(Lang.format(
+					getUnlocalizedName(stack) + ".description.slayer", slayer)));
 		}
 	}
 
@@ -65,9 +62,7 @@ public class ItemTrophy extends BaseItem
 
 	public static UUID getVictim(ItemStack stack)
 	{
-		if (!stack.hasTagCompound()
-				|| !stack.getTagCompound().hasKey(keyVictim))
-			return null;
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(keyVictim)) return null;
 		return stack.getTagCompound().getUniqueId(keyVictim);
 	}
 
@@ -82,15 +77,12 @@ public class ItemTrophy extends BaseItem
 
 	public static UUID getSlayer(ItemStack stack)
 	{
-		if (!stack.hasTagCompound()
-				|| !stack.getTagCompound().hasKey(keySlayer))
-			return null;
+		if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey(keySlayer)) return null;
 		return stack.getTagCompound().getUniqueId(keySlayer);
 	}
 
 	public static ItemStack create(UUID slayer, UUID victim)
 	{
-		return setSlayer(setVictim(new ItemStack(CommonProxy.trophy), victim),
-				slayer);
+		return setSlayer(setVictim(new ItemStack(CommonProxy.trophy), victim), slayer);
 	}
 }

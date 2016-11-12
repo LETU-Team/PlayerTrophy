@@ -1,5 +1,6 @@
 package com.lewismcreu.playertrophy.common.item;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -12,6 +13,7 @@ public class ItemBounty extends BaseItem
 	public ItemBounty()
 	{
 		super("bounty");
+		setCreativeTab(CreativeTabs.TOOLS);
 	}
 
 	@Override

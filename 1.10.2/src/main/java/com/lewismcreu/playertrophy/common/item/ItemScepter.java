@@ -6,6 +6,7 @@ import com.lewismcreu.playertrophy.common.data.Right;
 import com.lewismcreu.playertrophy.common.data.WorldData;
 import com.lewismcreu.playertrophy.proxy.CommonProxy;
 
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -25,6 +26,8 @@ public class ItemScepter extends BaseItem
 	public ItemScepter()
 	{
 		super("scepter");
+		setMaxStackSize(1);
+		setCreativeTab(CreativeTabs.TOOLS);
 	}
 
 	@Override

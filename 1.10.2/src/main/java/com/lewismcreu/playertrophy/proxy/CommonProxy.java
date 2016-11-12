@@ -3,6 +3,7 @@ package com.lewismcreu.playertrophy.proxy;
 import com.lewismcreu.playertrophy.common.data.Clan;
 import com.lewismcreu.playertrophy.common.data.IPlayerData;
 import com.lewismcreu.playertrophy.common.data.PlayerData;
+import com.lewismcreu.playertrophy.common.item.ItemBounty;
 import com.lewismcreu.playertrophy.common.item.ItemScepter;
 import com.lewismcreu.playertrophy.common.item.ItemTrophy;
 
@@ -25,13 +26,14 @@ public class CommonProxy
 
 	public static final ItemScepter scepter = new ItemScepter();
 	public static final ItemTrophy trophy = new ItemTrophy();
+	public static final ItemBounty bounty = new ItemBounty();
 
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		CapabilityManager.INSTANCE.register(IPlayerData.class,
-				new PlayerData.PlayerDataStorage(), PlayerData.class);
+		CapabilityManager.INSTANCE.register(IPlayerData.class, new PlayerData.PlayerDataStorage(), PlayerData.class);
 		GameRegistry.register(scepter);
 		GameRegistry.register(trophy);
+		GameRegistry.register(bounty);
 	}
 
 	public void init(FMLInitializationEvent event)

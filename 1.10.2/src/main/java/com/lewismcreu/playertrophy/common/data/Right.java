@@ -7,14 +7,13 @@ import com.lewismcreu.playertrophy.util.Lang;
  */
 public enum Right
 {
-	INVITE, KICKDEFAULT, KICK, MANAGE, DISBAND, CLAIM;
+	INVITE, KICKDEFAULT, KICK, MANAGE, DISBAND, CLAIM, NONE;
 
 	private final String descriptionKey;
 
 	private Right()
 	{
-		this.descriptionKey = "playertrophy.clan.right."
-				+ this.name().toLowerCase() + ".description";
+		this.descriptionKey = "playertrophy.clan.right." + this.name().toLowerCase() + ".description";
 	}
 
 	public String getDescription()

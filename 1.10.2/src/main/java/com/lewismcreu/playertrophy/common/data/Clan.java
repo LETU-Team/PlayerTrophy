@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.google.common.collect.Sets;
 import com.lewismcreu.playertrophy.PlayerTrophy;
 import com.lewismcreu.playertrophy.util.CollectionUtil;
+import com.lewismcreu.playertrophy.util.Lang;
 import com.lewismcreu.playertrophy.util.NBTable;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -64,14 +65,14 @@ public class Clan implements NBTable<Clan>
 		return name;
 	}
 
-	@Secured(Right.MANAGE)
-	public void setName(String name)
+	public void setName(UUID sender, String name) throws IllegalAccessException
 	{
+		if (!hasRight(sender, Right.MANAGE)) throw new IllegalAccessException(Lang.translate("chat.clan.nopermission"));
 		this.name = name;
 		markDirty();
 	}
 
-	public void addMember(UUID uuid)
+	public void addMember(UUID sender, UUID uuid) throws IllegalAccessException
 	{
 		if (!hasMember(uuid))
 		{
@@ -95,7 +96,7 @@ public class Clan implements NBTable<Clan>
 		return Collections.unmodifiableSet(members);
 	}
 
-	public void removeMember(UUID uuid)
+	public void removeMember(UUID sender, UUID uuid) throws IllegalAccessException
 	{
 		Member m = findMember(uuid);
 		if (members.remove(m)) markDirty();
@@ -142,7 +143,7 @@ public class Clan implements NBTable<Clan>
 	public boolean hasRight(UUID uuid, Right right)
 	{
 		Member m = findMember(uuid);
-		if (m != null) return m.hasRight(right);
+		if (m != null) return right == Right.NONE || m.hasRight(right);
 		return false;
 	}
 
@@ -163,10 +164,8 @@ public class Clan implements NBTable<Clan>
 		return Collections.unmodifiableSet(claimedChunks);
 	}
 
-	private static final String idKey = "id", membersKey = "members",
-			ranksKey = "ranks", rankCounterKey = "rankcounter",
-			defaultRankKey = "defaultrank", claimedChunksKey = "claimedchunks",
-			xKey = "x", zKey = "z";
+	private static final String idKey = "id", membersKey = "members", ranksKey = "ranks", rankCounterKey =
+			"rankcounter", defaultRankKey = "defaultrank", claimedChunksKey = "claimedchunks", xKey = "x", zKey = "z";
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
@@ -208,15 +207,12 @@ public class Clan implements NBTable<Clan>
 
 		NBTTagList memberList = nbt.getTagList(membersKey, NBT.TAG_COMPOUND);
 		for (int i = 0; i < memberList.tagCount(); i++)
-			members.add(
-					new Member().readFromNBT(memberList.getCompoundTagAt(i)));
+			members.add(new Member().readFromNBT(memberList.getCompoundTagAt(i)));
 
-		NBTTagList chunksList =
-				nbt.getTagList(claimedChunksKey, NBT.TAG_COMPOUND);
+		NBTTagList chunksList = nbt.getTagList(claimedChunksKey, NBT.TAG_COMPOUND);
 		for (int i = 0; i < chunksList.tagCount(); i++)
-			claimedChunks.add(new ChunkPos(
-					chunksList.getCompoundTagAt(i).getInteger(xKey),
-					chunksList.getCompoundTagAt(i).getInteger(zKey)));
+			claimedChunks.add(new ChunkPos(chunksList.getCompoundTagAt(i).getInteger(xKey), chunksList.getCompoundTagAt(
+					i).getInteger(zKey)));
 
 		defaultRank = findRank(nbt.getInteger(defaultRankKey));
 
@@ -225,8 +221,7 @@ public class Clan implements NBTable<Clan>
 
 	public class Member implements NBTable<Member>
 	{
-		private static final String uuidKey = "uuid", rankKey = "rank",
-				titleKey = "title";
+		private static final String uuidKey = "uuid", rankKey = "rank", titleKey = "title";
 
 		private UUID uuid;
 		private Rank rank;
@@ -361,8 +356,7 @@ public class Clan implements NBTable<Clan>
 			}
 		}
 
-		private static final String idKey = "id", nameKey = "name",
-				rightsKey = "rights";
+		private static final String idKey = "id", nameKey = "name", rightsKey = "rights";
 
 		@Override
 		public void writeToNBT(NBTTagCompound nbt)

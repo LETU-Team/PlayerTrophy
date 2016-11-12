@@ -29,13 +29,13 @@ public class ClientProxy extends CommonProxy
 		super.init(event);
 		registerItemModel(scepter);
 		registerItemModel(trophy);
+		registerItemModel(bounty);
 	}
 
 	private void registerItemModel(Item item)
 	{
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher()
-				.register(item, 0, new ModelResourceLocation(
-						PlayerTrophy.MODID + ":" + item.getRegistryName()));;
+		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(
+				PlayerTrophy.MODID + ":" + item.getRegistryName()));;
 	}
 
 	@Override
