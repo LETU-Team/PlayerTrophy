@@ -72,12 +72,14 @@ public class PlayerData implements IPlayerData
 	public void addInvitation(Clan clan)
 	{
 		invites.add(clan);
+		clan.addInvitation(uuid);
 	}
 
 	@Override
 	public void removeInvitation(Clan clan)
 	{
 		invites.remove(clan);
+		clan.removeInvitation(uuid);
 	}
 
 	@Override
@@ -91,12 +93,12 @@ public class PlayerData implements IPlayerData
 	}
 
 	@Override
-	public void leave() throws IllegalAccessException
+	public void leave()
 	{
 		if (hasClan())
 		{
-			getClan().removeMember(uuid, uuid);
-			setClan(null);
+				getClan().removeMember(uuid);
+				setClan(null);
 		}
 	}
 

@@ -114,6 +114,11 @@ public class WorldData extends WorldSavedData
 		return Collections.unmodifiableCollection(clans);
 	}
 
+	public void disbandClan(Clan c)
+	{
+		clans.remove(c);
+	}
+
 	private Collection<Bounty> bounties;
 
 	public Collection<Bounty> getBounties()
@@ -167,5 +172,10 @@ public class WorldData extends WorldSavedData
 		compound.setTag(bountyKey, bountyList);
 
 		return compound;
+	}
+
+	public Collection<Clan> findClan(String name)
+	{
+		return CollectionUtil.findAll(clans, c -> c.getName(), name);
 	}
 }

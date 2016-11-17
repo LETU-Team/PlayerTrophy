@@ -10,14 +10,23 @@ command.bounty.usage=/bounty
 command.clan.usage=/clan
 
 command.exception.trophy.playernotfound=Could not find player %f
-command.exception.clan.noclan=You are not in a clan!
+
+command.exception.clan.noclan=You are not in a clan.
+command.exception.clan.inclan=You are already in a clan.
+command.exception.clan.noname=You did not specify a name.
+command.exception.clan.noperm=You don't have permission to do this.
+command.exception.notaplayer=You cannot execute this command while not logged in as a player.
+command.exception.clan.noright=You don't have the right %f.
+command.exception.badparams=You passed too much/too few/invalid parameters.
 
 chat.bounty.empty=No bounties set!
 chat.bounties=%d bounties set; to see the rewards for the bounties, put down a bounty wall.
 chat.bounty=%f
 
 chat.clans=%d clans
-chat.clans.empty=No clans existing
+chat.clans.empty=No clans found
 chat.clan=%f - %d members
-chat.clan.leave=You left %f.
-chat.notaplayer=You have to be logged in as a player to perform this command.
+chat.clan.created=You created the clan %f.
+chat.clan.leave=You left the clan %f.
+chat.clan.disband=You disbanded the clan %f.
+chat.clan.invites=Invitations

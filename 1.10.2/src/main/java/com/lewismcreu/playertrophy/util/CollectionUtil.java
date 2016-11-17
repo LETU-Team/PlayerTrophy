@@ -79,8 +79,14 @@ public class CollectionUtil
 	public static <E, T> E find(Collection<E> col, Function<E, T> converter,
 			T sought)
 	{
-		List<E> l = filter(col, (E e) -> converter.apply(e).equals(sought));
+		List<E> l = filter(col, e -> converter.apply(e).equals(sought));
 		return l.isEmpty() ? null : l.get(0);
+	}
+
+	public static <E, T> Collection<E> findAll(Collection<E> col,
+			Function<E, T> converter, T sought)
+	{
+		return filter(col, e -> converter.apply(e).equals(sought));
 	}
 
 	public static <E> void process(Collection<E> col, Consumer<E> consumer)
