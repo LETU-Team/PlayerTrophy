@@ -3,11 +3,15 @@ package com.lewismcreu.playertrophy.proxy;
 import com.lewismcreu.playertrophy.common.data.Clan;
 import com.lewismcreu.playertrophy.common.data.IPlayerData;
 import com.lewismcreu.playertrophy.common.data.PlayerData;
+import com.lewismcreu.playertrophy.common.event.ClanEventHandler;
+import com.lewismcreu.playertrophy.common.event.CommonEventHandler;
+import com.lewismcreu.playertrophy.common.event.TrophyEventHandler;
 import com.lewismcreu.playertrophy.common.item.ItemBounty;
 import com.lewismcreu.playertrophy.common.item.ItemScepter;
 import com.lewismcreu.playertrophy.common.item.ItemTrophy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -35,6 +39,9 @@ public class CommonProxy
 		GameRegistry.register(scepter);
 		GameRegistry.register(trophy);
 		GameRegistry.register(bounty);
+		MinecraftForge.EVENT_BUS.register(new ClanEventHandler());
+		MinecraftForge.EVENT_BUS.register(new CommonEventHandler());
+		MinecraftForge.EVENT_BUS.register(new TrophyEventHandler());
 	}
 
 	public void init(FMLInitializationEvent event)
@@ -50,7 +57,8 @@ public class CommonProxy
 	public static IPlayerData getPlayerData(EntityPlayer player)
 	{
 		IPlayerData data = player.getCapability(playerDataCapability, null);
-		if (data != null && data.getUUID() == null) data.setUUID(player.getPersistentID());
+		if (data != null && data.getUUID() == null)
+			data.setUUID(player.getPersistentID());
 		return data;
 	}
 

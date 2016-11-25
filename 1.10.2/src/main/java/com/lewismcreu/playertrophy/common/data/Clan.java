@@ -29,6 +29,7 @@ public class Clan implements NBTable<Clan>
 		c.addRank(c.new Rank("Owner", Right.values()));
 		c.addMember(creator);
 		c.getMember(creator).rank = c.getRank("Owner");
+		c.setDefaultRank(c.getRank("Default"));
 		c.setId(PlayerTrophy.getData().nextClanId());
 		return c;
 	}
@@ -410,5 +411,10 @@ public class Clan implements NBTable<Clan>
 	public void markDirty()
 	{
 		PlayerTrophy.getData().markDirty();
+	}
+
+	public void removeAllMembers()
+	{
+		this.members.clear();
 	}
 }

@@ -117,6 +117,7 @@ public class WorldData extends WorldSavedData
 	public void disbandClan(Clan c)
 	{
 		clans.remove(c);
+		c.removeAllMembers();
 	}
 
 	private Collection<Bounty> bounties;

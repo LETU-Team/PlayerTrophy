@@ -5,9 +5,9 @@ item.scepter.name=Scepter
 item.playertrophy.description.target=Trophy of %s
 item.playertrophy.description.slain=Slain by %s
 
-command.trophy.usage=/trophy
-command.bounty.usage=/bounty
-command.clan.usage=/clan
+command.playertrophy.trophy.usage=/trophy
+command.playertrophy.bounty.usage=/bounty
+command.playertrophy.clan.usage=/clan
 
 command.exception.trophy.playernotfound=Could not find player %f
 

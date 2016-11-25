@@ -18,9 +18,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CommonEventHandler
 {
 	@SubscribeEvent
-	public void onAttachCapabilities(
-			AttachCapabilitiesEvent<EntityPlayer> event)
+	public void onAttachCapabilities(AttachCapabilitiesEvent event)
 	{
+		if (!(event.getObject() instanceof EntityPlayer)) return;
+
 		event.addCapability(
 				new ResourceLocation(PlayerTrophy.MODID, "playerdata"),
 				new PlayerData.PlayerDataProvider());
