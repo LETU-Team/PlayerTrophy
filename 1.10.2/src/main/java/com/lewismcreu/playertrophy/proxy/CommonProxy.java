@@ -30,7 +30,8 @@ public class CommonProxy
 
 	public void preInit(FMLPreInitializationEvent event)
 	{
-		CapabilityManager.INSTANCE.register(IPlayerData.class, new PlayerData.PlayerDataStorage(), PlayerData.class);
+		CapabilityManager.INSTANCE.register(IPlayerData.class,
+				new PlayerData.PlayerDataStorage(), PlayerData.class);
 		GameRegistry.register(scepter);
 		GameRegistry.register(trophy);
 		GameRegistry.register(bounty);
@@ -48,7 +49,9 @@ public class CommonProxy
 
 	public static IPlayerData getPlayerData(EntityPlayer player)
 	{
-		return player.getCapability(playerDataCapability, null);
+		IPlayerData data = player.getCapability(playerDataCapability, null);
+		if (data != null && data.getUUID() == null) data.setUUID(player.getPersistentID());
+		return data;
 	}
 
 	public static Clan getClan(EntityPlayer player)

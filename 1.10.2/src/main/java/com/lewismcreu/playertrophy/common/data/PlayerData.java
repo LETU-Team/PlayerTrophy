@@ -37,12 +37,6 @@ public class PlayerData implements IPlayerData
 		lastKills = Maps.newHashMap();
 	}
 
-	public PlayerData(UUID uuid)
-	{
-		this();
-		this.uuid = uuid;
-	}
-
 	@Override
 	public Clan getClan()
 	{
@@ -61,9 +55,15 @@ public class PlayerData implements IPlayerData
 	{
 		return uuid;
 	}
+	
+	@Override
+	public void setUUID(UUID uuid)
+	{
+		this.uuid = uuid;
+	}
 
 	@Override
-	public Collection<Clan> getInvites()
+	public Collection<Clan> getInvitations()
 	{
 		return Collections.unmodifiableCollection(invites);
 	}
@@ -119,9 +119,9 @@ public class PlayerData implements IPlayerData
 		{
 			NBTTagCompound nbt = new NBTTagCompound();
 			nbt.setInteger(clanKey, instance.getClan().getId());
-			int[] arr = new int[instance.getInvites().size()];
+			int[] arr = new int[instance.getInvitations().size()];
 			int i = 0;
-			Iterator<Clan> it = instance.getInvites().iterator();
+			Iterator<Clan> it = instance.getInvitations().iterator();
 			while (it.hasNext())
 			{
 				arr[i++] = it.next().getId();

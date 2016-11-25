@@ -13,13 +13,27 @@ public interface IPlayerData
 
 	public void setClan(Clan clan);
 
-	public default void acceptInvite(Clan clan)
+	public default boolean hasRight(Right right)
 	{
-		if (!hasClan() && getInvites().contains(clan))
+		Clan c = getClan();
+		if (c == null) return false;
+		return c.hasRight(getUUID(), right);
+	}
+
+	public default void acceptInvitation(Clan clan)
+	{
+		if (!hasClan() && getInvitations().contains(clan))
 		{
 			removeInvitation(clan);
 			setClan(clan);
 		}
+	}
+
+	public default void acceptInvitation(Collection<Clan> possibleClans)
+	{
+		for (Clan p : possibleClans)
+			for (Clan c : getInvitations())
+				if (p == c) acceptInvitation(p);
 	}
 
 	public default boolean hasClan()
@@ -29,13 +43,11 @@ public interface IPlayerData
 
 	public UUID getUUID();
 
-	public Collection<Clan> getInvites();
+	public Collection<Clan> getInvitations();
 
 	public void addInvitation(Clan clan);
 
 	public void removeInvitation(Clan clan);
-	
-	public void acceptInvitation(Clan clan);
 
 	public void leave();
 
@@ -48,7 +60,9 @@ public interface IPlayerData
 	public default void copy(IPlayerData data)
 	{
 		setClan(data.getClan());
-		for (Clan c : data.getInvites())
+		for (Clan c : data.getInvitations())
 			addInvitation(c);
 	}
+
+	public void setUUID(UUID uuid);
 }

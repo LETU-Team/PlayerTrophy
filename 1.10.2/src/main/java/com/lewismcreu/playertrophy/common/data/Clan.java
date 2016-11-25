@@ -28,7 +28,7 @@ public class Clan implements NBTable<Clan>
 		c.addRank(c.new Rank("Default"));
 		c.addRank(c.new Rank("Owner", Right.values()));
 		c.addMember(creator);
-		c.findMember(creator).rank = c.findRank("Owner");
+		c.getMember(creator).rank = c.getRank("Owner");
 		c.setId(PlayerTrophy.getData().nextClanId());
 		return c;
 	}
@@ -98,10 +98,10 @@ public class Clan implements NBTable<Clan>
 
 	public boolean hasMember(UUID uuid)
 	{
-		return findMember(uuid) != null;
+		return getMember(uuid) != null;
 	}
 
-	public Member findMember(UUID uuid)
+	public Member getMember(UUID uuid)
 	{
 		return CollectionUtil.find(members, m -> m.uuid, uuid);
 	}
@@ -113,7 +113,7 @@ public class Clan implements NBTable<Clan>
 
 	public void removeMember(UUID uuid)
 	{
-		Member m = findMember(uuid);
+		Member m = getMember(uuid);
 		if (members.remove(m)) markDirty();
 	}
 
@@ -126,6 +126,8 @@ public class Clan implements NBTable<Clan>
 	public void removeRank(Rank rank)
 	{
 		ranks.remove(rank);
+		for (Member m : getMembers())
+			if (m.rank == rank) m.setRank(getDefaultRank());
 		markDirty();
 	}
 
@@ -134,12 +136,12 @@ public class Clan implements NBTable<Clan>
 		return Collections.unmodifiableSet(ranks);
 	}
 
-	public Rank findRank(int id)
+	public Rank getRank(int id)
 	{
 		return CollectionUtil.find(ranks, r -> r.getId(), id);
 	}
 
-	public Rank findRank(String name)
+	public Rank getRank(String name)
 	{
 		return CollectionUtil.find(ranks, r -> r.getName(), name);
 	}
@@ -157,7 +159,7 @@ public class Clan implements NBTable<Clan>
 
 	public boolean hasRight(UUID uuid, Right right)
 	{
-		Member m = findMember(uuid);
+		Member m = getMember(uuid);
 		if (m != null) return right == Right.NONE || m.hasRight(right);
 		return false;
 	}
@@ -234,7 +236,7 @@ public class Clan implements NBTable<Clan>
 					chunksList.getCompoundTagAt(i).getInteger(xKey),
 					chunksList.getCompoundTagAt(i).getInteger(zKey)));
 
-		defaultRank = findRank(nbt.getInteger(defaultRankKey));
+		defaultRank = getRank(nbt.getInteger(defaultRankKey));
 
 		return this;
 	}
@@ -309,7 +311,7 @@ public class Clan implements NBTable<Clan>
 		public Member readFromNBT(NBTTagCompound nbt)
 		{
 			uuid = nbt.getUniqueId(uuidKey);
-			rank = findRank(nbt.getInteger(rankKey));
+			rank = Clan.this.getRank(nbt.getInteger(rankKey));
 			title = nbt.getString(titleKey);
 			return this;
 		}

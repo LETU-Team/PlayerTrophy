@@ -1,13 +1,15 @@
 package com.lewismcreu.playertrophy.common.commands;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.lewismcreu.playertrophy.PlayerTrophy;
 import com.lewismcreu.playertrophy.common.data.Clan;
+import com.lewismcreu.playertrophy.util.CollectionUtil;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.Style;
@@ -16,20 +18,20 @@ import net.minecraft.util.text.TextFormatting;
 
 public class CommandUtil
 {
-	public static final void addMatchingPlayerNames(MinecraftServer server,
-			List<String> out, String start)
+	public static final List<String> getMatchingPlayerNames(
+			MinecraftServer server, String start)
 	{
-		for (String name : server.getAllUsernames())
-			if (CommandBase.doesStringStartWith(start, name)) out.add(name);
+		return CollectionUtil.filter(
+				Lists.newArrayList(server.getAllUsernames()),
+				l -> l.startsWith(start));
 	}
 
-	public static final void addMatchingClanNames(List<String> out,
-			String start)
+	public static final List<String> getMatchingClanNames(String start)
 	{
 		Set<String> set = Sets.newHashSet();
 		for (Clan c : PlayerTrophy.getData().getClans())
 			if (c.getName().startsWith(start)) set.add(c.getName());
-		out.addAll(set);
+		return Lists.newArrayList(set);
 	}
 
 	public static final void sendErrorMessage(ICommandSender sender,
@@ -46,5 +48,11 @@ public class CommandUtil
 	{
 		TextComponentString c = new TextComponentString(message);
 		sender.addChatMessage(c);
+	}
+
+	public static final List<String> filterMatches(Collection<String> list,
+			String match)
+	{
+		return CollectionUtil.filter(list, l -> l.startsWith(match));
 	}
 }

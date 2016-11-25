@@ -50,9 +50,8 @@ public class CommandTrophy extends PTCommandBase
 	public List<String> getTabCompletionOptions(MinecraftServer server,
 			ICommandSender sender, String[] args, BlockPos pos)
 	{
-		List<String> out = new ArrayList<>();
-		if (args.length < 3)
-			CommandUtil.addMatchingPlayerNames(server, out, "");
-		return out;
+		if (args.length < 3) return CommandUtil.getMatchingPlayerNames(server,
+				args[args.length - 1]);
+		return super.getTabCompletionOptions(server, sender, args, pos);
 	}
 }
