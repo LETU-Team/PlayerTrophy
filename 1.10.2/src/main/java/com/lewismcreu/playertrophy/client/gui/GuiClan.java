@@ -1,7 +1,6 @@
 package com.lewismcreu.playertrophy.client.gui;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import com.lewismcreu.playertrophy.common.data.IPlayerData;
 
@@ -19,8 +18,6 @@ public class GuiClan extends GuiScreen
 	private IPlayerData player;
 
 	private GuiScreen createClanGui;
-	private GuiScreen manageClanGui;
-
 	public GuiClan(IPlayerData player)
 	{
 		this.player = player;
@@ -33,7 +30,7 @@ public class GuiClan extends GuiScreen
 	{
 		super.initGui();
 		createClanGui = new GuiCreateClan();
-		manageClanGui = new GuiManageClan();
+		new GuiManageClan();
 
 	}
 
@@ -76,7 +73,7 @@ public class GuiClan extends GuiScreen
 		protected void actionPerformed(GuiButton button) throws IOException
 		{
 			super.actionPerformed(button);
-			String clanName = clanNameField.getText();
+			clanNameField.getText();
 			
 		}
 	}

@@ -26,15 +26,12 @@ public class Config
 	private static final String trophyTimeC = "set the minimum time (in hours) between getting trophies from killing the same player";
 	private static final int trophyTimeDefault = 24;
 
-	private Configuration conf;
-
 	public boolean friendlyfire;
 	public int bountyTimeRec;
 	public int trophyTimeRec;
 
 	public Config(Configuration config)
 	{
-		this.conf = config;
 		this.init(config);
 	}
 

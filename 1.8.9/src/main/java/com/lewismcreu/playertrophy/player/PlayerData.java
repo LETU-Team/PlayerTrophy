@@ -81,7 +81,7 @@ public class PlayerData implements IExtendedEntityProperties
 
 	public boolean canPlaceBounty()
 	{
-		return System.currentTimeMillis() - this.bountyTime * 60 * 60 * 1000 >= this.lastBountyTime;
+		return System.currentTimeMillis() - PlayerData.bountyTime * 60 * 60 * 1000 >= this.lastBountyTime;
 	}
 
 	private String lastKillsToString()
@@ -91,7 +91,7 @@ public class PlayerData implements IExtendedEntityProperties
 
 		while (i.hasNext())
 		{
-			Entry e = i.next();
+			Entry<String, Long> e = i.next();
 			out += e.getKey() + "=" + e.getValue().toString();
 			if (i.hasNext()) out += ",";
 		}

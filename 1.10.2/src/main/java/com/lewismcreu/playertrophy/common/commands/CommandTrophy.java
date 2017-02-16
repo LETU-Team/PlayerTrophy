@@ -1,6 +1,5 @@
 package com.lewismcreu.playertrophy.common.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.lewismcreu.playertrophy.common.item.ItemTrophy;

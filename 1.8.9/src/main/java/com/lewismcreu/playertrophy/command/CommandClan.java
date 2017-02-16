@@ -424,7 +424,7 @@ public class CommandClan extends LMCommandBase
 		if (params.length > 3)
 		{
 			Clan c = getClan(sender);
-			PlayerData data = getPlayerData(sender);
+			getPlayerData(sender);
 			Rank rank = c.getRank(params[2]);
 			UUID uuid = CommonProxy.getUuidForName(params[3]);
 			if (rank == null) throw new IllegalArgumentException(

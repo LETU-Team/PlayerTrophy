@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CommonEventHandler
 {
 	@SubscribeEvent
-	public void onAttachCapabilities(AttachCapabilitiesEvent event)
+	public void onAttachCapabilities(AttachCapabilitiesEvent<?> event)
 	{
 		if (!(event.getObject() instanceof EntityPlayer)) return;
 
