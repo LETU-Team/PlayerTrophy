@@ -38,7 +38,8 @@ public class ClanEventHandler
 
 	public static boolean hasAccess(EntityPlayer player, BlockPos pos)
 	{
-		Clan c = PlayerTrophy.getInstance().getData().findClan(pos);
+		PlayerTrophy.getInstance();
+		Clan c = PlayerTrophy.getData().findClan(pos);
 		Clan pc = CommonProxy.getClan(player);
 
 		return (c != null && pc == c) || c == null;

@@ -57,7 +57,8 @@ public class TileEntityProtectedChest extends TileEntityChest implements IProtec
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		readOriginalNBT(nbt);
-		this.clan = (Clan) PlayerTrophy.getInstance().getData().getClans();
+		PlayerTrophy.getInstance();
+		this.clan = (Clan) PlayerTrophy.getData().getClans();
 	}
 
 	@Override

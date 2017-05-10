@@ -1,5 +1,7 @@
 package com.lewismcreu.playertrophy.proxy;
 
+import java.util.UUID;
+
 import com.lewismcreu.playertrophy.common.data.Clan;
 import com.lewismcreu.playertrophy.common.data.IPlayerData;
 import com.lewismcreu.playertrophy.common.data.PlayerData;
@@ -12,6 +14,7 @@ import com.lewismcreu.playertrophy.common.item.ItemTrophy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.UsernameCache;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -60,6 +63,12 @@ public class CommonProxy
 		if (data != null && data.getUUID() == null)
 			data.setUUID(player.getPersistentID());
 		return data;
+	}
+	
+	public static String getNameForUuid(UUID uuid)
+	{
+		String name = UsernameCache.getLastKnownUsername(uuid);
+		return name;
 	}
 
 	public static Clan getClan(EntityPlayer player)

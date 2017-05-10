@@ -2,7 +2,7 @@ package com.lewismcreu.playertrophy;
 
 import com.lewismcreu.playertrophy.common.commands.CommandClanNew;
 import com.lewismcreu.playertrophy.common.data.WorldData;
-import com.lewismcreu.playertrophy.proxy.CommonProxy;
+import com.lewismcreu.playertrophy.proxy.IProxy;
 import com.lewismcreu.playertrophy.util.Config;
 
 import net.minecraftforge.common.config.Configuration;
@@ -34,12 +34,7 @@ public class PlayerTrophy
 
 	@SidedProxy(clientSide = "com.lewismcreu.playertrophy.proxy.ClientProxy",
 			serverSide = "com.lewismcreu.playertrophy.proxy.CommonProxy")
-	private static CommonProxy proxy;
-
-	public CommonProxy getProxy()
-	{
-		return proxy;
-	}
+	public static IProxy proxy;
 
 	private SimpleNetworkWrapper channel;
 
@@ -52,14 +47,14 @@ public class PlayerTrophy
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		Config.init(new Configuration(event.getSuggestedConfigurationFile()));
-		proxy.preInit(event);
+		proxy.preInit();
 		channel = NetworkRegistry.INSTANCE.newSimpleChannel(MODID);
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		proxy.init(event);
+		proxy.init();
 	}
 
 	private WorldData data;

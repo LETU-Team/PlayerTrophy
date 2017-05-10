@@ -53,7 +53,8 @@ public class ItemScepter extends BaseItem
 					BlockPos pos = player.getPosition();
 					Chunk chunk = world.getChunkFromBlockCoords(pos);
 					ChunkPos cPos = chunk.getChunkCoordIntPair();
-					WorldData data = PlayerTrophy.getInstance().getData();
+					PlayerTrophy.getInstance();
+					WorldData data = PlayerTrophy.getData();
 					Clan claimer = data.findClan(cPos);
 					if (claimer == null)
 					{
