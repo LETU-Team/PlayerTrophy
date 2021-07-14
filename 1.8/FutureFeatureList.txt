@@ -1,5 +1,0 @@
-- Trading Block (trade playertrophies for items, admin only)
-- PlayerTrophy Block
-- Bounty Block (and still server announcement when a bounty is placed)
-- Bounty Rework: configurable rewards
-- Clan rework : more clear command structure
