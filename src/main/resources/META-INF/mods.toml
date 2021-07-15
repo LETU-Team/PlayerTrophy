@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="GNU AGPLv3"
+issueTrackerURL="https://github.com/LewisMcReu/PlayerTrophy/issues"
+[[mods]]
+modId="playertrophy"
+version="${file.jarVersion}"
+displayName="PlayerTrophy"
+# A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+#logoFile="examplemod.png" #optional
+credits="Thanks to Bubble, Cazsius, Uberverse and many others who have inspired and encouraged me in my modding endeavours"
+authors="LewisMcReu, Cazsius a.k.a. MrTrollNugNug" #optional
+description='''
+Create a clan with your friends and start to claim the world!
+Put bounties out on your enemies, making them regret crossing you!
+'''
+[[dependencies.playertrophy]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.playertrophy]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="BOTH"
